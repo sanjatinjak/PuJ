@@ -113,7 +113,7 @@ public class RegistracijaController implements Initializable{
     public void prijaviSe() throws IOException{
         root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Prijava.fxml"));
         Stage stage = new Stage();
-        stage.setTitle("Pocetna");
+        stage.setTitle("Prijava");
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
         registracija.getScene().getWindow().hide();

@@ -81,7 +81,7 @@ public class RezultatiController implements Initializable {
     public void prikaziKorisnike() throws IOException{
         root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Korisnici.fxml"));
         Stage stage = new Stage();
-        stage.setTitle("Registracija");
+        stage.setTitle("Registrirani korisnici");
         stage.setScene(new Scene(root, 791, 414));
         stage.show();
         korisnici.getScene().getWindow().hide();

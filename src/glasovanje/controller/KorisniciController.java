@@ -76,7 +76,7 @@ public class KorisniciController implements Initializable {
     public void goBack() throws IOException{
         root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Rezultati.fxml"));
         Stage stage = new Stage();
-        stage.setTitle("Pocetna");
+        stage.setTitle("Rezultati");
         stage.setScene(new Scene(root, 895, 501));
         stage.show();
         natrag.getScene().getWindow().hide();
