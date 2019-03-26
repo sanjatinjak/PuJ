@@ -1,17 +1,12 @@
 package glasovanje.controller;
 
-import javafx.scene.control.TextField;
-import glasovanje.model.GlasačModel;
-import static java.awt.Color.green;
+
+import glasovanje.model.RegistracijaModel;
+import static glasovanje.model.Kontrola.checkData;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,19 +33,14 @@ public class RegistracijaController implements Initializable{
     
     @FXML
     TextField ime;
-    
     @FXML
     TextField prezime;
-    
     @FXML
     TextField jmbg;
-    
     @FXML
     TextField broj_osobne;
-    
     @FXML
     TextField grad;
-    
     @FXML
     TextField adresa;
    
@@ -58,20 +48,23 @@ public class RegistracijaController implements Initializable{
     Button registracija;
     
     @FXML
-    Label greska;
+    Button prijava;
+    @FXML
+    Button natrag;
     
+    @FXML
+    Label greska;
     @FXML
     Label username;
-    
     @FXML
     Label password;
-    
     @FXML
     Label status;
-    
 
-    public void registerAction(ActionEvent e) throws IOException {
+    @FXML
+    public void registerAction(ActionEvent e) {
         
+        //dohvat unesenih podataka
         String ime = this.ime.getText();
         String prezime = this.prezime.getText();
         String JMBG = this.jmbg.getText();
@@ -79,35 +72,22 @@ public class RegistracijaController implements Initializable{
         String grad = this.grad.getText();
         String adresa = this.adresa.getText();
 
-        GlasačModel glasac = new GlasačModel(ime, prezime, JMBG, broj_osobne, grad, adresa);
+        //provjera unesenih podatke
+        String status = checkData(JMBG, ime, prezime, grad);
+        
+        if(status == ""){
+        
+        //novi registrirani glasac
+        RegistracijaModel glasac = new RegistracijaModel(ime, prezime, JMBG, broj_osobne, grad, adresa);
         if(glasac.create() == 0){
+            
         this.username.setText("Vaše korisničko ime je : " + glasac.username);
         this.password.setText("Šifra : " + glasac.password);
-        this.status.setText("Nakon 5 sekundi bit ćete preusmjereni na prijavu. Prijavljujete se s podacima koji su vam dani. Ako ne želite sada glasovati molimo vas da izađete i ne prijavljujete se jer možete samo jednom glasovati !");
-        
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Prijava.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Glasovanje");
-        stage.setScene(new Scene(root, 905, 648));
-        
-        
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.schedule(
-              new Runnable() {
-                @Override 
-                public void run() {
-                    Platform.runLater(new Runnable() {
-                        @Override 
-                        public void run() { 
-                            registracija.getScene().getWindow().hide();
-                            stage.show(); 
-                        }
-                    });
-        }
-        }, 20, TimeUnit.SECONDS);
-
-        
-        } else this.status.setText(glasac.greska);
+      
+        registracija.setVisible(false);
+        prijava.setVisible(true);
+       
+        } else this.status.setText(glasac.poruka);
 
         this.ime.setText("");
         this.prezime.setText("");
@@ -115,13 +95,33 @@ public class RegistracijaController implements Initializable{
         this.broj_osobne.setText("");
         this.grad.setText("");
         this.adresa.setText("");
-        
+        } else this.status.setText(status);
         
     }
 
+    @FXML
+    public void goBack() throws IOException{
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Pocetna.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Pocetna");
+        stage.setScene(new Scene(root, 891, 505));
+        stage.show();
+        registracija.getScene().getWindow().hide();
+    }
+    
+    @FXML
+    public void prijaviSe() throws IOException{
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Prijava.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Pocetna");
+        stage.setScene(new Scene(root, 600, 400));
+        stage.show();
+        registracija.getScene().getWindow().hide();
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       
+       prijava.setVisible(false);
     }
     
 }

@@ -27,5 +27,6 @@
       </Label>
       <Button fx:id="prijava" layoutX="538.0" layoutY="349.0" mnemonicParsing="false" onAction="#prijavise" prefHeight="25.0" prefWidth="82.0" text="Prijavi se" />
       <Label fx:id="stausLbl" layoutX="185.0" layoutY="345.0" prefHeight="33.0" prefWidth="342.0" />
+      <Button fx:id="natrag" layoutX="14.0" layoutY="36.0" mnemonicParsing="false" onAction="#goBack" text="Natrag" />
    </children>
 </Pane>

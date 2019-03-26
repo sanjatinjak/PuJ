@@ -8,8 +8,6 @@ package glasovanje.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,11 +21,23 @@ import javafx.scene.chart.PieChart;
  */
 
 public class RezultatiModel {
+    
     SimpleStringProperty kandidat = new SimpleStringProperty();
     SimpleIntegerProperty broj_glasova = new SimpleIntegerProperty();
-    public static PreparedStatement qry, qry2;
+    
+    public RezultatiModel(String kandidat, int broj_glasova){
+        this.kandidat = new SimpleStringProperty (kandidat);
+        this.broj_glasova = new SimpleIntegerProperty (broj_glasova);
+    }
+    
+    public RezultatiModel(){}
+    
+    public static PreparedStatement query;
     private ObservableList pieChartData;
     
+    int brojGlasova;
+
+   
     public String getKandidat() {
         return kandidat.get();
     }
@@ -45,26 +55,21 @@ public class RezultatiModel {
     }
         
    
-    public static Baza db = new Baza();
+    static Baza db = new Baza();
     PreparedStatement stmnt;
+    static ResultSet rs;
     int i;
  
-    public RezultatiModel(){}
-    
-    public RezultatiModel(String kandidat, int broj_glasova){
-        this.kandidat = new SimpleStringProperty (kandidat);
-        this.broj_glasova = new SimpleIntegerProperty (broj_glasova);
-    }
-   
-    public static ObservableList<RezultatiModel> listaKontakata () {
+    //read
+    public static ObservableList<RezultatiModel> listaKandidata () {
         ObservableList<RezultatiModel> lista = FXCollections.observableArrayList();
         
+        //dohvati sve kandidate
         try {
-            qry = db.exec("SELECT * FROM kandidati");
-            ResultSet rs = qry.executeQuery();
+            query = db.exec("SELECT * FROM kandidati");
+            rs = query.executeQuery();
             
             while (rs.next()) {
-                System.out.println(rs.getInt(3) + " kandidat " + rs.getString(2));// -> prolazi sve je u redu
                 lista.add(new RezultatiModel( rs.getString(2), rs.getInt(3)));
             }
         } catch (SQLException ex) {
@@ -73,20 +78,33 @@ public class RezultatiModel {
         return lista;
     }
     
+   
     public ObservableList buildData(){
           pieChartData = FXCollections.observableArrayList();
           try{
-            //SQL FOR SELECTING NATIONALITY OF CUSTOMER
-            qry2 = db.exec("SELECT * FROM kandidati");
-            ResultSet rs = qry2.executeQuery();
+              
+            query = db.exec("SELECT * FROM kandidati");
+            rs = query.executeQuery();
  
             while(rs.next()){
                 //adding data on piechart data
                 pieChartData.add(new PieChart.Data(rs.getString(2),rs.getInt(3)));
             }
           }catch(Exception e){
-              System.out.println("Error on DB connection" + e.getMessage());
+              System.out.println("Greška pri izvršavanju upita." + e.getMessage());
           }
           return pieChartData;
       }
+    
+    public int brojGlasaca(){
+        query = db.exec("SELECT count(*) FROM glasovi");
+        try {
+            rs = query.executeQuery();
+            if(rs.next()) brojGlasova= rs.getInt(1);
+        } catch (SQLException ex) {
+              System.out.println("Greška pri izvršavanju upita." + ex.getMessage());
+        }
+        return brojGlasova;
+    }
+ 
 }

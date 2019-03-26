@@ -12,27 +12,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Daniel
- */
+
 public class Glasovanje extends Application {
     
-    //prvo nam se otvara reigster panel. ako imamo već račun dolje ce mu biti link za otici na prijavu
-    //login panel imamo 
-    
-    //nakon toga ide na izbor panel tu odabere i pohrani
-    
-    //ako se logira kao "admin" ide na insight panel i gleda rezultate
     
     @Override
     public void start(Stage primaryStage) throws IOException {
         
         Parent root = FXMLLoader.load(getClass().getResource("view/Pocetna.fxml"));
         
-        Scene scene = new Scene(root, 905, 648);
+        Scene scene = new Scene(root, 891, 505);
         
-        primaryStage.setTitle("Registrirajte se na sustav!");
+        primaryStage.setTitle("Sustav za glasovanje");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

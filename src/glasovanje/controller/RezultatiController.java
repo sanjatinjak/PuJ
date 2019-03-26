@@ -6,14 +6,15 @@
 package glasovanje.controller;
 
 import glasovanje.model.RezultatiModel;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  *
@@ -28,21 +30,29 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class RezultatiController implements Initializable {
    
-    
-    
     @FXML
     Button prikazi;
+    @FXML
+    Button korisnici;
+    @FXML
+    Button obrisi;
     
     @FXML
     PieChart pieChart;
     
     @FXML
     TableView tablica;
-    
     @FXML
     TableColumn kandidat;
     @FXML
     TableColumn br_glasova;
+    
+    @FXML
+    Label brojGlasaca;
+    
+    RezultatiModel rm = new RezultatiModel();
+    
+    Parent root;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,20 +62,33 @@ public class RezultatiController implements Initializable {
     @FXML
     public void obrada(){
         ObservableList<RezultatiModel> data;
-        data = RezultatiModel.listaKontakata();
+        data = RezultatiModel.listaKandidata();
         
         kandidat.setCellValueFactory(new PropertyValueFactory<RezultatiModel, String>("Kandidat"));
         br_glasova.setCellValueFactory(new PropertyValueFactory<RezultatiModel, Integer>("Broj_glasova"));
         
         tablica.setItems(data);
         
-        RezultatiModel rm = new RezultatiModel();
         ObservableList<Data> pieData = rm.buildData();
      
         pieChart.setData(pieData);
         pieChart.setVisible(true);
-        pieChart.setTitle("Glasovi");
         
+        this.brojGlasaca.setText("Glasovalo " + rm.brojGlasaca());
     }
     
+    @FXML
+    public void prikaziKorisnike() throws IOException{
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Korisnici.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Registracija");
+        stage.setScene(new Scene(root, 791, 414));
+        stage.show();
+        korisnici.getScene().getWindow().hide();
+    }
+    
+    
+    
 }
+     
+  

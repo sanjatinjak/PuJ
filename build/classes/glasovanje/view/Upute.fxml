@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="287.0" prefWidth="653.0" stylesheets="@Upute.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Da biste mogli obaviti glasovanje morate se prvo registrirati. Pri registraciji obratite pozornost" wrappingWidth="632.5368418693542" />
+      <Text layoutX="14.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nakon uspješne validacije podataka dobit ćete korisničko ime i šifru kojom ćete moći pristupiti" wrappingWidth="632.5368462800978" />
+      <Text layoutX="14.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="glasovanju. Molimo Vas da iste sačuvate i ne dijelite ni sa kim. " wrappingWidth="632.5368462800978" />
+      <Text layoutX="14.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Posebno napominjemo da se tim podacima možete prijaviti samo jedanput. Nakon prve prijave" wrappingWidth="632.5368462800978" />
+      <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vaši korisnički podaci će postati neaktivni. " wrappingWidth="632.5368462800978" />
+      <Text layoutX="14.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Glasovati možete samo jednom. " wrappingWidth="350.13677990436554" />
+      <Text layoutX="14.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sustav je napravljen tako da nitko ne može povezati Vaš glas s Vama." wrappingWidth="613.3367615938187" />
+      <Text layoutX="14.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Za ostale poteškoće i informacije obratite nam se na : glasovanje@info.com" wrappingWidth="632.5368462800978" />
+      <Text layoutX="14.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="na unošenje podataka." wrappingWidth="632.5368462800978" />
+   </children>
+</Pane>

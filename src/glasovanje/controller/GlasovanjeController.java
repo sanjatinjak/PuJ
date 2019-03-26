@@ -5,13 +5,10 @@
  */
 package glasovanje.controller;
 
-import glasovanje.Glasovanje;
 import glasovanje.model.GlasovanjeModel;
 import java.sql.SQLException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.fxml.FXML;
@@ -39,10 +36,14 @@ public class GlasovanjeController {
     
     @FXML
     Button pohrani;
+    @FXML
+    Button odjava;
     
     String glas;
-   
+    String pohraniGlas;
+
     Boolean flag = false;
+    
     //Interface -> A set that allows observers to track changes when they occur
     private ObservableSet<CheckBox> selectedCheckBoxes = FXCollections.observableSet();
     private ObservableSet<CheckBox> unselectedCheckBoxes = FXCollections.observableSet();
@@ -55,6 +56,7 @@ public class GlasovanjeController {
     
    
     public String initialize() {
+        odjava.setVisible(false);
         
         if(configureCheckBox(izbor1)){
             glas = "Petar Sosa";
@@ -70,13 +72,13 @@ public class GlasovanjeController {
             glas = "Asvaltina Boto";
         }
         
-        //ako nije nista odabrao onemoguci dugme
+        //ako nije nista odabrao onemoguci dugme za pohranu
         pohrani.setDisable(true);
 
         //dodavanje listener-a na svaki checkbox da pratim promjene
         numCheckBoxesSelected.addListener((obs, oldSelectedCount, newSelectedCount) -> {
-            //ako je broj odabranih veci ili jednak od may prodji kroz
-            //sve ne odabrane i onemoguci ih
+            //ako je broj odabranih veci ili jednak od max prodji kroz
+            //sve neodabrane i onemoguci ih
             //onemoguci dugme
             if (newSelectedCount.intValue() >= maxNumSelected) {
                 unselectedCheckBoxes.forEach(cb -> cb.setDisable(true));
@@ -129,14 +131,17 @@ public class GlasovanjeController {
      
     @FXML
     public void glasovao() throws SQLException{
-      String pohrani;
       
-      pohrani = initialize();
-     
-      GlasovanjeModel noviGlas = new GlasovanjeModel(pohrani);
+      pohraniGlas = initialize();
+      GlasovanjeModel noviGlas = new GlasovanjeModel(pohraniGlas);
       noviGlas.pohraniGlas();
       
-      
+      odjava.setVisible(true);
+    }
+    
+    @FXML
+    public void odjaviSe(){
+        pohrani.getScene().getWindow().hide();
     }
     
     }

@@ -1,55 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="glasovanje.controller.RezultatiController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="895.0" stylesheets="@rezultati.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="glasovanje.controller.RezultatiController">
    <children>
-      <PieChart fx:id="pieChart" layoutX="70.0" layoutY="169.0" prefHeight="372.0" prefWidth="448.0" />
-      <Label layoutX="286.0" layoutY="42.0" prefHeight="54.0" prefWidth="333.0" text="Trenutni rezultati glasovanja : ">
+      <PieChart fx:id="pieChart" layoutX="79.0" layoutY="65.0" prefHeight="372.0" prefWidth="448.0" />
+      <Label layoutX="281.0" layoutY="14.0" prefHeight="54.0" prefWidth="333.0" text="Trenutni rezultati glasovanja : ">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="label1" layoutX="531.0" layoutY="214.0" prefHeight="39.0" prefWidth="333.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="label2" layoutX="531.0" layoutY="253.0" prefHeight="39.0" prefWidth="333.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="label3" layoutX="531.0" layoutY="292.0" prefHeight="39.0" prefWidth="333.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="label4" layoutX="531.0" layoutY="331.0" prefHeight="39.0" prefWidth="333.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="label5" layoutX="531.0" layoutY="370.0" prefHeight="39.0" prefWidth="333.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="label6" layoutX="531.0" layoutY="409.0" prefHeight="39.0" prefWidth="333.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tablica" layoutX="598.0" layoutY="169.0" prefHeight="372.0" prefWidth="258.0">
+      <TableView fx:id="tablica" layoutX="647.0" layoutY="92.0" prefHeight="345.0" prefWidth="234.0">
         <columns>
-          <TableColumn fx:id="kandidat" prefWidth="131.199951171875" text="KANDIDAT" />
-          <TableColumn fx:id="br_glasova" prefWidth="126.4000244140625" text="BROJ GLASOVA" />
+          <TableColumn fx:id="kandidat" prefWidth="120.800048828125" text="KANDIDAT" />
+          <TableColumn fx:id="br_glasova" minWidth="0.0" prefWidth="109.5999755859375" text="BROJ GLASOVA" />
         </columns>
       </TableView>
+      <Button layoutX="647.0" layoutY="448.0" mnemonicParsing="false" onAction="#obrada" prefHeight="25.0" prefWidth="234.0" text="Osvježi" />
+      <Label fx:id="brojGlasaca" layoutX="50.0" layoutY="465.0" prefHeight="17.0" prefWidth="322.0" />
+      <Button fx:id="korisnici" layoutX="727.0" layoutY="14.0" mnemonicParsing="false" onAction="#prikaziKorisnike" prefHeight="25.0" prefWidth="154.0" text="Registrirani glasači" />
    </children>
 </Pane>

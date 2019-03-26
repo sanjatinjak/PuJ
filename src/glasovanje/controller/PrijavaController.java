@@ -5,8 +5,7 @@
  */
 package glasovanje.controller;
 
-import glasovanje.model.Korisnik;
-import glasovanje.model.LogiraniKorisnikModel;
+import glasovanje.model.PrijavaModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,7 +30,9 @@ public class PrijavaController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
+    Parent root;
+    Stage stage = new Stage();
+
     @FXML
     TextField username;
     
@@ -39,38 +40,61 @@ public class PrijavaController implements Initializable {
     PasswordField password;
     
     @FXML
-    Label statuslbl;
+    Label status;
     
     @FXML
     Button prijavaBtn;
-        
-    @FXML          
-    public void prijavise() throws IOException{
-    Parent root;
-    String usr = this.username.getText();
-    String pass = this.password.getText();
     
-    LogiraniKorisnikModel lkm = new LogiraniKorisnikModel(usr, pass);
+       
+    public void prijavise(){
     
-    //pozovi funkciju za prijavu, ako je uspjesno izvrsena prikazi mu prozor za glasovanje
-    if(lkm.prijava() == 1){
-        
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Izbor.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Glasovanje");
-        stage.setScene(new Scene(root, 905, 648));
-        stage.show();
-        prijavaBtn.getScene().getWindow().hide();
-    
-    } else if(lkm.prijava() == 2){
- 
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Rezultati.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Rezultati");
-        stage.setScene(new Scene(root, 905, 648));
-        stage.show();
-    } 
+        try {
+            String usr = this.username.getText();
+            String pass = this.password.getText();
+            
+            PrijavaModel pm = new PrijavaModel(usr, pass);
+            
+            //pozovi funkciju za prijavu, ako je uspjesno izvrsena prikazi mu prozor za glasovanje
+            if(pm.prijava() == 1){
+                
+                try {
+                    root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Izbor.fxml"));
+                    stage.setTitle("Glasovanje");
+                    stage.setScene(new Scene(root, 895, 501));
+                    stage.show();
+                    prijavaBtn.getScene().getWindow().hide();
+                } catch (IOException ex) {
+                System.out.println("Greška prilikom otvaranja prozora." + ex);
+                }
+                
+            } else if(pm.prijava() == 2){
+                
+                try {
+                    root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Rezultati.fxml"));
+                    stage.setTitle("Rezultati");
+                    stage.setScene(new Scene(root, 895, 501));
+                    stage.show();
+                    prijavaBtn.getScene().getWindow().hide();
+                } catch (IOException ex) {
+                System.out.println("Greška prilikom otvaranja prozora." + ex);
+                }
+            } else this.status.setText(pm.lbl);
+        } catch (IOException ex) {
+                System.out.println("Greška prilikom izvrsavanja metode." + ex);
+        }
 
+    }
+    
+    public void goBack(){
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("glasovanje/view/Pocetna.fxml"));
+            stage.setTitle("Pocetna");
+            stage.setScene(new Scene(root, 891, 505));
+            stage.show();
+            prijavaBtn.getScene().getWindow().hide();
+        } catch (IOException ex) {
+                System.out.println("Greška prilikom otvaranja prozora." + ex);
+        }
     }
     
     @Override

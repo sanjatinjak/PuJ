@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,7 +8,6 @@ package glasovanje.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javafx.collections.ObservableList;
 
 /**
  *
@@ -16,30 +15,53 @@ import javafx.collections.ObservableList;
  */
 public class GlasovanjeModel {
     
-    Baza db = new Baza();
-    PreparedStatement iskaz1, iskaz2;
-    int br;
-    
     private String glas;
-    
+
     public GlasovanjeModel (String glas) {
      this.glas = glas;
     }
     
-    public void pohraniGlas() throws SQLException{
-        iskaz1 = db.exec("SELECT broj_glasova FROM kandidati WHERE kandidat=?");
-        iskaz1.setString(1, glas);  
-        iskaz1.executeQuery();
-        
-        ResultSet rs = iskaz1.executeQuery();
-        
-        if(rs.next()){
-        br = rs.getInt(1);
-        
-        iskaz2 = db.exec("UPDATE kandidati SET broj_glasova =? WHERE kandidat=?");
-        iskaz2.setInt(1, br+1);       
-        iskaz2.setString(2, glas);   
-        iskaz2.executeUpdate();
+    Baza db = new Baza();
+    PreparedStatement query;
+    ResultSet rs;
+
+    int br, id;
+    
+    public void pohraniGlas(){
+        try {
+            //dohvati id kandidata kojeg je odabrao
+            query = db.exec("SELECT id FROM kandidati WHERE kandidat=?");
+            query.setString(1, glas);
+            query.executeQuery();
+            rs = query.executeQuery();
+            
+            //spremi u tablicu glasovi izbor i id kandidata
+            if(rs.next()){
+                id = rs.getInt(1);
+                
+                query = db.exec("INSERT INTO glasovi VALUES(null,?,?)");
+                query.setString(1, glas);
+                query.setInt(2,id);
+                query.executeUpdate();
+            }
+            
+            //dohvati trenutni broj glasova odabranog kandidata
+            query = db.exec("SELECT broj_glasova FROM kandidati WHERE kandidat=?");
+            query.setString(1, glas);
+            query.executeQuery();
+            rs = query.executeQuery();
+            
+            if(rs.next()){
+                br = rs.getInt(1);
+                
+                //uvecaj broj glasova za 1
+                query = db.exec("UPDATE kandidati SET broj_glasova =? WHERE kandidat=?");
+                query.setInt(1, br+1);
+                query.setString(2, glas);
+                query.executeUpdate();
+            }
+        } catch (SQLException ex) {
+                System.out.println("Greška prilikom izvršavanja upita." + ex);
         }
     }
     
